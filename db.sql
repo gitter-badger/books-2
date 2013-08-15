@@ -19,3 +19,15 @@ CREATE TABLE books_genre(ISBN int(8),
 							
 INSERT INTO authors(firstName, lastName) VALUES('Айн', 'Рейд'), ('Архимандрит', 'Тихон'), ('Эва', 'Хансен'), ('Макс', 'Фрай'), ('Ник', 'Вуйчич'), ('Виктор', 'Пелевин'),
 			('Стивен', 'Кинг'), ('Дэвид', 'Робертс');
+			
+INSERT INTO genres(title) VALUES('Фантастика'), ('Детектив'), ('Исторический роман'), ('Проза'), ('Поэзия'), ('Биографии'), 
+			('Любовные романы'), ('Афоризмы'), ('Комиксы');			
+			
+			
+CREATE TRIGGER delbook BEFORE DELETE ON books
+    FOR EACH ROW
+    BEGIN
+   		DELETE FROM books_author WHERE OLD.ISBN = ISBN;
+   		DELETE FROM books_genre WHERE OLD.ISBN = ISBN;
+    END;
+			

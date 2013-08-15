@@ -19,4 +19,4 @@
   	<a href="<?php echo URL."index.php/authors/";?>">Авторы</a>
   </li>
 </ul>
-	<h1><?php echo "<center>".$title."</center>" ?></h1>
+	<h1><?php echo "<center>".$title."</center>" ?></h1><br>

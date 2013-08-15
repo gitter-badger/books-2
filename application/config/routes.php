@@ -39,11 +39,13 @@
 */
 $route['authors/(:any)'] = 'authors/view/$1';
 $route['authors'] = 'authors';
+$route['books/delete/(:any)'] = 'books/delete/$1';
 
-$route['default_controller'] = "books/view";
-$route['(:any)'] = 'books/view/$1';
+$route['default_controller'] = "books";
+//$route['(:any)'] = 'books/view/$1';
 
-$route['404_override'] = '';
+
+$route['404_override'] = 'errors/error_404';
 
 
 /* End of file routes.php */

@@ -5,23 +5,70 @@ class Books_model extends CI_Model {
 	}
 	public function get_books() {
 		$query = $this->db->get('books');
-		$result = $query->result_array();
-		
-		$all = array();
-		foreach ($result as $result_item) {
-			$all[] = array("ISBN" => $result_item['ISBN']);
-			$result_books_author =  $this->db->get_where('books_author', array('ISBN' => $result_item['ISBN']))->result_array();
-			foreach ($result_books_author as $result_books_author_item) {
-				$result_author_name = $this->db->get_where('authors', array('id_author' => $result_books_author_item['id_author']))->result_array()[0];
-				$all[] = array("id_author" => $result_books_author_item['id_author'], "author_name" => $result_author_name['firstName']." ".
-																									$result_author_name['lastName']);
-			}
+		return $query->result_array();
+	}
+	public function delete_book($isbn) {
+		$this->db->delete('books', array('ISBN' => $isbn));
+	}
+	public function create_book($title, $image, array $id_genres, array $id_authors)
+	{
+			
+		$data = array(
+				'title' => $title,
+				'image' => $image
+		);
+		$this->db->insert('books', $data);
+		$isbn = $this->db->insert_id();
+		foreach ($id_genres as $id_genres_item) {
+			$data_genres = array(
+								'ISBN' => $isbn,
+								'id_genre' => $id_genres_item);
+			$this->db->insert('books_genre', $data_genres);
 		}
-		print_r($all);
-		return $query->result_array();
+		
+		foreach ($id_authors as $id_authors_item) {
+			$data_authors = array(
+					'ISBN' => $isbn,
+					'id_author' => $id_authors_item);
+			$this->db->insert('books_author', $data_authors);
+		}
 	}
-	public function get_books_by_isbn($isbn) {
+	public function get_book_by_isbn($isbn) {
 		$query = $this->db->get_where('books', array('ISBN' => $isbn));
-		return $query->result_array();
+		return $query->row();
 	}
+	public function update_book($isbn, $title, $image, array $id_genres, array $id_authors) {
+		if ($image != "")  {
+				$data = array(
+						'title' => $title,
+						'image' => $image
+				);
+			$this->db->where('ISBN', $isbn);
+			$this->db->update('books', $data);
+		} else {
+			$data = array(
+					'title' => $title,
+			);
+			$this->db->where('ISBN', $isbn);
+			$this->db->update('books', $data);
+		}
+		$this->db->delete('books_author', array('ISBN' => $isbn));
+		$this->db->delete('books_genre', array('ISBN' => $isbn));
+		
+		foreach ($id_genres as $id_genres_item) {
+			$data_genres = array(
+					'ISBN' => $isbn,
+					'id_genre' => $id_genres_item);
+			$this->db->insert('books_genre', $data_genres);
+		}
+		
+		foreach ($id_authors as $id_authors_item) {
+			$data_authors = array(
+					'ISBN' => $isbn,
+					'id_author' => $id_authors_item);
+			$this->db->insert('books_author', $data_authors);
+		}
+	}
+	
+	
 }
