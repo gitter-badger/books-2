@@ -9,12 +9,6 @@
 
 <title><?php echo $title ?></title>
 
-<script type="text/javascript">
-$(".nav a").live("click", function(){
-	  $("#navi a").removeClass("active");
-	  $(this).addClass("active")
-	});
-</script>
 </head>
 <body>
 <ul class="nav nav-pills" >
@@ -25,4 +19,4 @@ $(".nav a").live("click", function(){
   	<a href="<?php echo URL."index.php/authors/";?>">Авторы</a>
   </li>
 </ul>
-	<h1><?php echo $title ?></h1>
+	<h1><?php echo "<center>".$title."</center>" ?></h1>

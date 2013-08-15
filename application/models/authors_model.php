@@ -11,4 +11,8 @@ class Authors_model extends CI_Model {
 		$query = $this->db->get_where('authors', array('id_author' => $id_author));
 		return $query->result_array();
 	}
+	public function get_all_author_isbn($id_author) {
+		$query = $this->db->get_where('books_author', array('id_author' => $id_author));
+		return $query->result_array();
+	}
 }

@@ -9,7 +9,6 @@ class Books extends CI_Controller {
 	public function view($page = 'books') {
 		if ( ! file_exists('application/views/books/'.$page.'.php'))
 		{
-			// Whoops, we don't have a page for that!
 			show_404();
 		}
 		
